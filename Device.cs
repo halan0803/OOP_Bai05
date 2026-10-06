@@ -41,7 +41,7 @@ namespace DeviceManagement
         // Ghi đè phương thức biểu diễn thông tin của thiết bị dưới dạng chuỗi
         public override string ToString()
             {
-                return $"[{DeviceId}] {Name} | Năm SD: {YearOfUse} ({YearsInUse} năm) | Giá mua: {PurchasePrice:N0} đ | Trạng thái: {Status} | Phí bảo trì: {CalculateMaintenanceCost():N0} đ";
+                return $"[{DeviceID}] {DeviceName} | Năm SD: {YearOfUse} | Giá mua: {PurchasePrice:N0} đ | Trạng thái: {Status} | Phí bảo trì: {CalculateMaintenanceCost():N0} đ";
             }
     }
 }
