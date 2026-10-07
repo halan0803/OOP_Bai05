@@ -6,6 +6,13 @@
 using System;
 namespace DeviceManagement
 {
+    public enum DeviceStatus
+    {
+        Active,
+        UnderMaintenance,
+        Retired
+    }
+    
     public abstract class Device
     {
         public string DeviceID { get; init; }

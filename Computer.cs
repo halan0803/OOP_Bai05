@@ -39,5 +39,9 @@ namespace DeviceManagement
                 rate += 0.01m; 
             return PurchasePrice * rate;
         }
+        public override string ToString()
+        {
+            return $"[{DeviceID}] {DeviceName} | Năm SD: {YearOfUse} | Giá mua: {PurchasePrice:N0} đ | Dung lượng RAM: {Ram} GB | Loại CPU: {CpuType} | Có GPU rời: {(HasDedicatedGpu ? "Có" : "Không")} | Trạng thái: {Status} | Phí bảo trì: {CalculateMaintenanceCost():N0} đ";
+        }
     }
 }
