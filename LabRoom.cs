@@ -39,8 +39,8 @@ namespace DeviceManagement
             if (device == null)
                 throw new ArgumentNullException(nameof(device), "Không thể thêm thiết bị null vào phòng.");
 
-            if (FindDevice(device.DeviceId) != null)
-                throw new InvalidOperationException($"Thiết bị có mã '{device.DeviceId}' đã tồn tại trong phòng {RoomId}.");
+            if (FindDevice(device.DeviceID) != null)
+                throw new InvalidOperationException($"Thiết bị có mã '{device.DeviceID}' đã tồn tại trong phòng {RoomId}.");
 
             Devices.Add(device);
         }
@@ -57,7 +57,7 @@ namespace DeviceManagement
         public Device? FindDevice(string deviceId)
         {
             if (string.IsNullOrWhiteSpace(deviceId)) return null;
-            return Devices.FirstOrDefault(d => d.DeviceId.Equals(deviceId.Trim(), StringComparison.OrdinalIgnoreCase));
+            return Devices.FirstOrDefault(d => d.DeviceID.Equals(deviceId.Trim(), StringComparison.OrdinalIgnoreCase));
         }
 
         // Tính tổng chi phí bảo trì bằng tính đa hình
