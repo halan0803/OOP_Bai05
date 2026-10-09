@@ -15,19 +15,26 @@ namespace DeviceManagement
     public class Printer : Device
     {
         public PrinterType Type { get; set; } 
-        public int PrintedPages { get; set; } 
-        public bool SupportNetwwork { get; set; } 
+        private int _printedPages;
+        public int PrintedPages
+        {
+            get => _printedPages;
+            set
+            {
+                if (value < 0)
+                    throw new ArgumentException("Số trang đã in không được âm.");
+
+                _printedPages = value;
+            }
+        } 
+        public virtual bool SupportNetwork => false; 
         public bool IsColorPrinter {get; set; }
 
         public Printer(string deviceId, string deviceName, int yearOfUse, decimal purchasePrice, PrinterType type, int printedPages, bool supportNetwork, bool isColorPrinter, DeviceStatus status = DeviceStatus.Active)
             : base(deviceId, deviceName, yearOfUse, purchasePrice, status)
         {
-            if (printedPages < 0)
-                throw new ArgumentException("Số trang đã in không được nhỏ hơn 0.");
-
             Type = type;
             PrintedPages = printedPages;
-            SupportNetwwork = supportNetwork;
             IsColorPrinter = isColorPrinter;
         }
 
@@ -46,7 +53,7 @@ namespace DeviceManagement
         }
         public override string ToString()
         {
-            return $"[{DeviceID}] {DeviceName} | Năm SD: {YearOfUse} | Giá mua: {PurchasePrice:N0} đ | Loại máy in: {Type} | Số trang đã in: {PrintedPages} trang | Hỗ trợ mạng: {(SupportNetwwork ? "Có" : "Không")} | Máy in màu: {(IsColorPrinter ? "Có" : "Không")} | Trạng thái: {Status} | Phí bảo trì: {CalculateMaintenanceCost():N0} đ";
+            return $"[{DeviceID}] {DeviceName} | Năm SD: {YearOfUse} | Giá mua: {PurchasePrice:N0} đ | Loại máy in: {Type} | Số trang đã in: {PrintedPages} trang | Hỗ trợ mạng: {(SupportNetwork ? "Có" : "Không")} | Máy in màu: {(IsColorPrinter ? "Có" : "Không")} | Trạng thái: {Status} | Phí bảo trì: {CalculateMaintenanceCost():N0} đ";
         }
     }
 }

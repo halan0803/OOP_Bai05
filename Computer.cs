@@ -9,8 +9,30 @@ namespace DeviceManagement
     // Computer kế thừa từ Device và thực thi INetworkable
     public class Computer : Device, INetworkable
     {
-        public int Ram { get; set; } 
-        public string CpuType { get; set; } 
+        private int _ram;
+        public int Ram
+        {
+            get => _ram;
+            set
+            {
+                if (value <= 0)
+                    throw new ArgumentException("RAM phải lớn hơn 0.");
+
+                _ram = value;
+            }
+        }
+        private string _cpuType = string.Empty;
+        public string CpuType
+        {
+            get => _cpuType;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentException("Loại CPU không được để trống.");
+
+                _cpuType = value;
+            }
+        }
         public bool HasDedicatedGpu { get; set; }
 
         public string IpAddress { get; private set; } = string.Empty;
@@ -19,12 +41,6 @@ namespace DeviceManagement
         public Computer(string deviceId, string deviceName, int yearOfUse, decimal purchasePrice, int ram, string cpuType, bool hasDedicatedGpu, DeviceStatus status = DeviceStatus.Active)
             : base(deviceId, deviceName, yearOfUse, purchasePrice, status)
         {
-            if(ram <= 0)
-                throw new ArgumentException("Dung lượng RAM phải lớn hơn 0.");
-            
-            if(string.IsNullOrWhiteSpace(cpuType))
-                throw new ArgumentException("Loại CPU không được rỗng.");
-
             Ram = ram;
             CpuType = cpuType;
             HasDedicatedGpu = hasDedicatedGpu;

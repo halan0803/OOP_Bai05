@@ -17,8 +17,25 @@ namespace DeviceManagement
     {
         public string DeviceID { get; init; }
         public string DeviceName { get; set; }
-        public int YearOfUse { get; set; }
-        public decimal PurchasePrice { get; set; }
+        private int _yearOfUse;
+        public int YearOfUse
+        {
+            get => _yearOfUse;
+            set
+            {
+                if (value <= 0 || value > DateTime.Now.Year)
+                    throw new ArgumentException("Năm sử dụng không hợp lệ.");
+
+                _yearOfUse = value;
+            }
+        }
+        private decimal _purchasePrice;
+        public decimal PurchasePrice
+        {
+            get => _purchasePrice;
+            set => _purchasePrice = value > 0 ? value
+                : throw new ArgumentException("Giá mua phải lớn hơn 0.");
+        }
         public DeviceStatus Status { get; set; }
 
         public Device(string deviceId, string deviceName, int yearOfUse, decimal purchasePrice, DeviceStatus status = DeviceStatus.Active)
@@ -27,15 +44,7 @@ namespace DeviceManagement
             if (string.IsNullOrWhiteSpace(deviceId))
                 throw new ArgumentException("Mã thiết bị không được rỗng.");
 
-            // Giá mua phải lớn hơn 0
-            if (purchasePrice <= 0)
-                throw new ArgumentException("Giá mua phải lớn hơn 0.");
-
-            // Năm đưa vào sử dụng không được lớn hơn năm hiện tại
-            if (yearOfUse > DateTime.Now.Year)
-                throw new ArgumentException("Năm đưa vào sử dụng không được lớn hơn năm hiện tại.");
-            
-            DeviceID = deviceId;
+            DeviceID = deviceId.Trim();
             DeviceName = deviceName;
             YearOfUse = yearOfUse;
             PurchasePrice = purchasePrice;

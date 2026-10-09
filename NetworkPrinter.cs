@@ -9,7 +9,7 @@ namespace DeviceManagement
     // NetworkPrinter kế thừa từ Printer và thực thi INetworkable
     public class NetworkPrinter : Printer, INetworkable
     {
-        public bool SupportNetwork => true;
+        public override bool SupportNetwork => true;
         public string IpAddress { get; private set; } = string.Empty;
         public bool IsConnected { get; private set; } = false;
 

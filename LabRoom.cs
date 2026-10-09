@@ -11,26 +11,51 @@ namespace DeviceManagement
 {
     public class LabRoom
     {
-        public string RoomId { get; set; }
-        public string RoomName { get; set; }
-        public int Capacity { get; set; }
-        public List<Device> Devices { get; set; }
+        private string _roomId = string.Empty;
+        public string RoomId
+        {
+            get => _roomId;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentException("Mã phòng không được để trống.");
+
+                _roomId = value.Trim();
+            }
+        }
+        private string _roomName = string.Empty;
+        public string RoomName
+        {
+            get => _roomName;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentException("Tên phòng không được để trống.");
+
+                _roomName = value.Trim();
+            }
+        }
+        private int _capacity;
+        public int Capacity
+        {
+            get => _capacity;
+            set
+            {
+                if (value <= 0)
+                    throw new ArgumentException("Sức chứa phải lớn hơn 0.");
+
+                _capacity = value;
+            }
+        }
+        private readonly List<Device> _devices = new();
+        public IReadOnlyList<Device> Devices => _devices;
 
         public LabRoom(string roomId, string roomName, int capacity)
         {
-            if (string.IsNullOrWhiteSpace(roomId)) 
-                throw new ArgumentException("Mã phòng không được rỗng.");
-
-            if (string.IsNullOrWhiteSpace(roomName)) 
-                throw new ArgumentException("Tên phòng không được rỗng.");
-
-            if (capacity <= 0) 
-                throw new ArgumentOutOfRangeException(nameof(capacity), "Sức chứa phải lớn hơn 0.");
-
             RoomId = roomId;
             RoomName = roomName;
             Capacity = capacity;
-            Devices = new List<Device>();
+            _devices = new List<Device>();
         }
 
         // Thêm thiết bị vào phòng thực hành
@@ -42,7 +67,7 @@ namespace DeviceManagement
             if (FindDevice(device.DeviceID) != null)
                 throw new InvalidOperationException($"Thiết bị có mã '{device.DeviceID}' đã tồn tại trong phòng {RoomId}.");
 
-            Devices.Add(device);
+            _devices.Add(device);
         }
 
         // Xóa thiết bị khỏi phòng theo mã
@@ -50,7 +75,7 @@ namespace DeviceManagement
         {
             var device = FindDevice(deviceId);
             if (device == null) return false;
-            return Devices.Remove(device);
+            return _devices.Remove(device);
         }
 
         // Tìm thiết bị trong phòng theo mã

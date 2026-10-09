@@ -8,18 +8,34 @@ namespace DeviceManagement
 {
     public class Projector : Device
     {
-        public int BrightnessLumens { get; set; } 
-        public int LampHoursUsed { get; set; } 
+        private int _brightnessLumens;
+        public int BrightnessLumens
+        {
+            get => _brightnessLumens;
+            set
+            {
+                if (value <= 0)
+                    throw new ArgumentException("Độ sáng phải lớn hơn 0.");
+
+                _brightnessLumens = value;
+            }
+        } 
+        private int _lampHoursUsed;
+        public int LampHoursUsed
+        {
+            get => _lampHoursUsed;
+            set
+            {
+                if (value < 0)
+                    throw new ArgumentException("Số giờ sử dụng bóng đèn không được âm.");
+
+                _lampHoursUsed = value;
+            }
+        }
 
         public Projector(string deviceId, string deviceName, int yearOfUse, decimal purchasePrice, int brightnessLumens, int lampHoursUsed, DeviceStatus status = DeviceStatus.Active)
             : base(deviceId, deviceName, yearOfUse, purchasePrice, status)
         {
-            if (brightnessLumens <= 0)
-                throw new ArgumentException("Độ sáng (Lumen) phải lớn hơn 0.");
-            
-            if (lampHoursUsed < 0)
-                throw new ArgumentException("Số giờ đã sử dụng bóng đèn không được nhỏ hơn 0.");
-
             BrightnessLumens = brightnessLumens;
             LampHoursUsed = lampHoursUsed;
         }
